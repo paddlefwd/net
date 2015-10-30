@@ -40,7 +40,7 @@ class TestNet(unittest.TestCase):
 
         # Simple logistic regression.
         model = net.Layer(activation=net.sigmoid,
-                nvis=nvis, nhid=nclasses, learning_rate=0.01)
+                nvis=nvis, nhid=nclasses, learning_rate=0.1)
 
         np.random.seed(17)
         n_examples = 1000
@@ -64,18 +64,17 @@ class TestNet(unittest.TestCase):
             return x,y
 
         def cost(y, y_hat, n):
-            return np.sum(-y*np.log(y_hat - (1-y)*np.log(1-y_hat)))/float(n)
+            return np.sum(-y*np.log(y_hat) - (1-y)*np.log(1-y_hat))/float(n)
 
         x_train, y_train = make_data(n_examples, nvis)
         x_valid, y_valid= make_data(n_examples, nvis)
-
-        """
+'''
         colors = ['red' if y == 0 else 'green' for y in y_train]
         plt.scatter(x_train[:, 0], x_train[:, 1], c=colors)
         plt.show(block=False)
-        """
-
-        for epoch in six.moves.range(50):
+'''
+        
+        for epoch in six.moves.range(10000):
             # Training set.
             y_hat_train = model.forward(x_train)
             assert y_train.shape == y_hat_train.shape
